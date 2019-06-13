@@ -119,6 +119,6 @@ public class MyService extends AccessibilityService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        notificationManager.cancel(1);
+       // notificationManager.cancel(1);
     }
 }
