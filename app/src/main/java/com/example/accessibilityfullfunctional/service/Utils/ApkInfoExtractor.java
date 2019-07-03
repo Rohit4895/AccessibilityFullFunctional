@@ -51,7 +51,7 @@ public class ApkInfoExtractor {
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            drawable = ContextCompat.getDrawable(context, R.mipmap.ic_launcher);
+            drawable = ContextCompat.getDrawable(context, R.mipmap.ic_launcher_accessibility);
         }
 
         return drawable;

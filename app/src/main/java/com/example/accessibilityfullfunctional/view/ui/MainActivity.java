@@ -1,14 +1,14 @@
 package com.example.accessibilityfullfunctional.view.ui;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.accessibilityfullfunctional.R;
 import com.example.accessibilityfullfunctional.service.Utils.ApkInfoExtractor;
 import com.example.accessibilityfullfunctional.service.model.PackageNamesOnly;
@@ -23,10 +24,12 @@ import com.example.accessibilityfullfunctional.service.model.UserInformationData
 import com.example.accessibilityfullfunctional.view.adapter.PackageInfoAdapter;
 import com.example.accessibilityfullfunctional.viewModel.MainActivityViewModel;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
     private MainActivityViewModel mainActivityViewModel;
     private String packName;
     private RecyclerView recyclerView;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -41,11 +45,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
+
+        int accessibilityEnabled = 0;
+
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED);
+            Log.d("demo","Status: "+accessibilityEnabled);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (accessibilityEnabled == 0) {
+            createDialog("To continue with app, you have to on accessibility service.\n Do you want to continue..?");
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 Intent intent = new Intent(MainActivity.this,InsertionTask.class);
                 startActivityForResult(intent,1);
             }
@@ -88,6 +104,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void createDialog(String message){
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                        startActivityForResult(intent, 0);
+                    }
+                }).setNegativeButton("Cancel", null)
+                .create();
+
+
+
+        dialog.show();
     }
 
     @Override

@@ -35,10 +35,16 @@ public class MyService extends AccessibilityService {
         event1 = event;
         accessibilityNodeInfo = event.getSource();
 
+        Log.d("waste","onAccessibilityEvent: ");
+
+        if (!(accessibilityNodeInfo.isEditable())){
+            return;
+        }
+
         final String packName = accessibilityNodeInfo.getPackageName().toString();
         Log.d("waste","pac: "+packName);
-        if (packName == null)
-            return;
+
+
         AppExecutor.getInstance().getDiskIo().execute(new Runnable() {
             @Override
             public void run() {
@@ -56,6 +62,10 @@ public class MyService extends AccessibilityService {
                             Log.d("waste","user: "+user);
                             pass = userEntry.getPassword();
                             Log.d("waste","pass: "+pass);
+
+                            accessibilityNodeInfo.getViewIdResourceName();
+                            Log.d("waste","view id : "+accessibilityNodeInfo.getViewIdResourceName()
+                                    +" type: "+accessibilityNodeInfo.getInputType());
                             if (accessibilityNodeInfo.isPassword()) {
                                 pasteText(accessibilityNodeInfo, pass);
                             } else {
@@ -66,10 +76,7 @@ public class MyService extends AccessibilityService {
                 }
             }
 
-
         });
-
-
 
     }
 
@@ -119,6 +126,6 @@ public class MyService extends AccessibilityService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-       // notificationManager.cancel(1);
+        notificationManager.cancel(1);
     }
 }
