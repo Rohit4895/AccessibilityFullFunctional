@@ -22,7 +22,7 @@ public interface UserInformationDataDao {
     List<UserInformationData> getAll();
 
     @Query("select * from UserInformationData where packageName=:packageName")
-    UserInformationData getAllUserAndPassword(String packageName);
+    List<UserInformationData> getAllUserAndPassword(String packageName);
 
 
 }

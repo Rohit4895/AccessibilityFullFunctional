@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (accessibilityEnabled == 0) {
-            createDialog("To continue with app, you have to on accessibility service for A3utofill.\n Do you want to continue..?");
+            createDialog("To continue with app, you have to ON the accessibility service of Autofill.\n Do you want to continue..?");
         }
 
         fab.setOnClickListener(new View.OnClickListener() {

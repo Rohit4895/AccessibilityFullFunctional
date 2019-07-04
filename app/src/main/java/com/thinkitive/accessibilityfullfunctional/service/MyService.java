@@ -16,6 +16,8 @@ import com.thinkitive.accessibilityfullfunctional.Utils.AppExecutor;
 import com.thinkitive.accessibilityfullfunctional.Utils.DataBaseClient;
 import com.thinkitive.accessibilityfullfunctional.model.UserInformationData;
 
+import java.util.List;
+
 public class MyService extends AccessibilityService {
     private String user="";
     private String pass="";
@@ -43,18 +45,18 @@ public class MyService extends AccessibilityService {
             @Override
             public void run() {
 
-                final UserInformationData userEntry = DataBaseClient.getInstance(getApplicationContext())
+                final List<UserInformationData> userEntry = DataBaseClient.getInstance(getApplicationContext())
                         .getMainDataBase().userInformationDataDao().getAllUserAndPassword(packName);
 
-                if (userEntry != null) {
+                if (userEntry.size() > 0) {
 
                     AppExecutor.getInstance().getMainThread().execute(new Runnable() {
                         @Override
                         public void run() {
 
-                             user = userEntry.getUser();
+                             user = userEntry.get(0).getUser();
                           //  Log.d("waste","user: "+user);
-                            pass = userEntry.getPassword();
+                            pass = userEntry.get(0).getPassword();
                            // Log.d("waste","pass: "+pass);
 
                             accessibilityNodeInfo.getViewIdResourceName();
