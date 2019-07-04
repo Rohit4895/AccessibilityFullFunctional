@@ -13,14 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.accessibilityfullfunctional.R;
-import com.example.accessibilityfullfunctional.service.Utils.ApkInfoExtractor;
-import com.example.accessibilityfullfunctional.service.model.PackageNamesOnly;
-import com.example.accessibilityfullfunctional.service.model.UserInformationData;
+import com.example.accessibilityfullfunctional.Utils.ApkInfoExtractor;
+import com.example.accessibilityfullfunctional.model.PackageNamesOnly;
+import com.example.accessibilityfullfunctional.model.UserInformationData;
 import com.example.accessibilityfullfunctional.view.adapter.PackageInfoAdapter;
 import com.example.accessibilityfullfunctional.viewModel.MainActivityViewModel;
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED);
-            Log.d("demo","Status: "+accessibilityEnabled);
+            //Log.d("demo","Status: "+accessibilityEnabled);
         } catch (Settings.SettingNotFoundException e) {
             e.printStackTrace();
         }
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 new Observer<List<UserInformationData>>() {
             @Override
             public void onChanged(@Nullable List<UserInformationData> list) {
-                Log.d("waste","On Create: "+list.size());
+              //  Log.d("waste","On Create: "+list.size());
                 packageInfoAdapter.addItems(list);
             }
         });
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                             new Observer<Boolean>() {
                         @Override
                         public void onChanged(@Nullable Boolean aBoolean) {
-                            Log.d("waste","Inserted");
+                           // Log.d("waste","Inserted");
                         }
                     });
                 }
@@ -118,8 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 }).setNegativeButton("Cancel", null)
                 .create();
 
-
-
         dialog.show();
     }
 
@@ -131,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 new Observer<List<UserInformationData>>() {
             @Override
             public void onChanged(@Nullable List<UserInformationData> list) {
-                Log.d("waste","On Result: "+list.size());
+               // Log.d("waste","On Result: "+list.size());
             }
         });
     }

@@ -1,7 +1,7 @@
-package com.example.accessibilityfullfunctional.service.Utils;
+package com.example.accessibilityfullfunctional.Utils;
 
-import com.example.accessibilityfullfunctional.service.model.PackageNamesOnly;
-import com.example.accessibilityfullfunctional.service.model.UserInformationData;
+import com.example.accessibilityfullfunctional.model.PackageNamesOnly;
+import com.example.accessibilityfullfunctional.model.UserInformationData;
 
 import java.util.List;
 

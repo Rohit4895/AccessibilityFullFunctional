@@ -6,4 +6,6 @@
     android:accessibilityFlags="flagDefault"
     android:canPerformGestures="true"
     android:canRetrieveWindowContent="true"
-    android:accessibilityEventTypes="typeViewLongClicked"/>
+    android:accessibilityEventTypes="typeViewFocused|typeViewLongClicked"/>
+
+    <!--typeViewLongClicked|typeViewFocused-->

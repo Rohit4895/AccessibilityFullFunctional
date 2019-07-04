@@ -1,4 +1,4 @@
-package com.example.accessibilityfullfunctional.service.model;
+package com.example.accessibilityfullfunctional.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

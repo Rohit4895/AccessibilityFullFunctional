@@ -21,7 +21,7 @@ public class MyService extends AccessibilityService {
 
     @Override
     protected void onServiceConnected() {
-        Log.d("waste","connected");
+       // Log.d("waste","connected");
         super.onServiceConnected();
         Notification.Builder builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_launcher_foreground);

@@ -1,4 +1,4 @@
-package com.example.accessibilityfullfunctional.service.Utils;
+package com.example.accessibilityfullfunctional.Utils;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;

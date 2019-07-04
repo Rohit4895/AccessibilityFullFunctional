@@ -9,17 +9,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.accessibilityfullfunctional.R;
-import com.example.accessibilityfullfunctional.service.Utils.ApkInfoExtractor;
-import com.example.accessibilityfullfunctional.service.Utils.InterfaceDistributionClass;
-import com.example.accessibilityfullfunctional.service.model.PackageNamesOnly;
+import com.example.accessibilityfullfunctional.Utils.ApkInfoExtractor;
+import com.example.accessibilityfullfunctional.Utils.InterfaceDistributionClass;
+import com.example.accessibilityfullfunctional.model.PackageNamesOnly;
 import com.example.accessibilityfullfunctional.view.adapter.InsertionAdapter;
 import com.example.accessibilityfullfunctional.viewModel.InsertionTaskViewModel;
 
@@ -84,7 +81,7 @@ public class InsertionTask extends AppCompatActivity implements InterfaceDistrib
                 String pass = password.getText().toString();
 
                 if (userId == null || pass == null || pack == null){
-                    Toast.makeText(getApplicationContext(),"All Fields are neccessary...",Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(),"All Fields are neccessary...",Toast.LENGTH_SHORT).show();
                     return;
                 }
 

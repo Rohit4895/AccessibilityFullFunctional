@@ -5,12 +5,11 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 
-import com.example.accessibilityfullfunctional.service.Utils.InterfaceDistributionClass;
-import com.example.accessibilityfullfunctional.service.model.PackageNamesOnly;
-import com.example.accessibilityfullfunctional.service.model.UserInformationData;
+import com.example.accessibilityfullfunctional.Utils.InterfaceDistributionClass;
+import com.example.accessibilityfullfunctional.model.PackageNamesOnly;
+import com.example.accessibilityfullfunctional.model.UserInformationData;
 import com.example.accessibilityfullfunctional.viewModel.local.CrudOperations;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class MainActivityViewModel extends AndroidViewModel implements Interface
 
     @Override
     public void getList(List<UserInformationData> list) {
-        Log.d("waste","list: "+list.size());
+       // Log.d("waste","list: "+list.size());
         userInformationDataList.postValue(list);
     }
 

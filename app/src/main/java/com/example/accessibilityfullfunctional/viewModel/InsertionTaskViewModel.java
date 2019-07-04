@@ -6,9 +6,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
-import com.example.accessibilityfullfunctional.service.Utils.DataBaseClient;
-import com.example.accessibilityfullfunctional.service.Utils.InterfaceDistributionClass;
-import com.example.accessibilityfullfunctional.service.model.PackageNamesOnly;
+import com.example.accessibilityfullfunctional.Utils.InterfaceDistributionClass;
+import com.example.accessibilityfullfunctional.model.PackageNamesOnly;
 import com.example.accessibilityfullfunctional.viewModel.local.CrudOperations;
 
 import java.util.List;

@@ -1,26 +1,20 @@
-package com.example.accessibilityfullfunctional.service.Utils;
+package com.example.accessibilityfullfunctional.service;
 
 import android.accessibilityservice.AccessibilityService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.example.accessibilityfullfunctional.R;
-import com.example.accessibilityfullfunctional.service.model.UserInformationData;
-import com.example.accessibilityfullfunctional.viewModel.MainActivityViewModel;
-import com.example.accessibilityfullfunctional.viewModel.local.CrudOperations;
-
-import java.util.List;
+import com.example.accessibilityfullfunctional.Utils.AppExecutor;
+import com.example.accessibilityfullfunctional.Utils.DataBaseClient;
+import com.example.accessibilityfullfunctional.model.UserInformationData;
 
 public class MyService extends AccessibilityService {
     private String user="";
@@ -42,7 +36,7 @@ public class MyService extends AccessibilityService {
         }
 
         final String packName = accessibilityNodeInfo.getPackageName().toString();
-        Log.d("waste","pac: "+packName);
+       // Log.d("waste","pac: "+packName);
 
 
         AppExecutor.getInstance().getDiskIo().execute(new Runnable() {
@@ -59,13 +53,13 @@ public class MyService extends AccessibilityService {
                         public void run() {
 
                              user = userEntry.getUser();
-                            Log.d("waste","user: "+user);
+                          //  Log.d("waste","user: "+user);
                             pass = userEntry.getPassword();
-                            Log.d("waste","pass: "+pass);
+                           // Log.d("waste","pass: "+pass);
 
                             accessibilityNodeInfo.getViewIdResourceName();
-                            Log.d("waste","view id : "+accessibilityNodeInfo.getViewIdResourceName()
-                                    +" type: "+accessibilityNodeInfo.getInputType());
+                           // Log.d("waste","view id : "+accessibilityNodeInfo.getViewIdResourceName()
+                             //       +" type: "+accessibilityNodeInfo.getInputType());
                             if (accessibilityNodeInfo.isPassword()) {
                                 pasteText(accessibilityNodeInfo, pass);
                             } else {
@@ -96,7 +90,7 @@ public class MyService extends AccessibilityService {
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
-        Log.d("waste","connected");
+       // Log.d("waste","connected");
 
         Notification.Builder builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_launcher_foreground);

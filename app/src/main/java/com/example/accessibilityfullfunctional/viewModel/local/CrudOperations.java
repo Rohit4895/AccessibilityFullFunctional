@@ -1,16 +1,13 @@
 package com.example.accessibilityfullfunctional.viewModel.local;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
-import com.example.accessibilityfullfunctional.service.Utils.AppExecutor;
-import com.example.accessibilityfullfunctional.service.Utils.DataBaseClient;
-import com.example.accessibilityfullfunctional.service.Utils.InterfaceDistributionClass;
-import com.example.accessibilityfullfunctional.service.Utils.MyService;
-import com.example.accessibilityfullfunctional.service.dao.PackageNameOnlyDao;
-import com.example.accessibilityfullfunctional.service.model.PackageNamesOnly;
-import com.example.accessibilityfullfunctional.service.model.UserInformationData;
+import com.example.accessibilityfullfunctional.Utils.AppExecutor;
+import com.example.accessibilityfullfunctional.Utils.DataBaseClient;
+import com.example.accessibilityfullfunctional.Utils.InterfaceDistributionClass;
+import com.example.accessibilityfullfunctional.dao.PackageNameOnlyDao;
+import com.example.accessibilityfullfunctional.model.PackageNamesOnly;
+import com.example.accessibilityfullfunctional.model.UserInformationData;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class CrudOperations {
 
                 for (int i=0; i<packsgeNameList.size(); i++){
                     packageNamesOnly.setPackageName(packsgeNameList.get(i));
-                    Log.d("waste",packsgeNameList.get(i));
+                   // Log.d("waste",packsgeNameList.get(i));
                     packageNameOnlyDao.insertPackageNames(packageNamesOnly);
                 }
 

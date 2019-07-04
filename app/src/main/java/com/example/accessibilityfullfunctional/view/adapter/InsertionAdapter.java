@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.accessibilityfullfunctional.R;
-import com.example.accessibilityfullfunctional.service.Utils.ApkInfoExtractor;
+import com.example.accessibilityfullfunctional.Utils.ApkInfoExtractor;
 import com.example.accessibilityfullfunctional.view.ui.InsertionTask;
 
 import java.util.List;

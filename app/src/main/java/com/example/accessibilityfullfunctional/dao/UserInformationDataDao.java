@@ -1,11 +1,11 @@
-package com.example.accessibilityfullfunctional.service.dao;
+package com.example.accessibilityfullfunctional.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.example.accessibilityfullfunctional.service.model.UserInformationData;
+import com.example.accessibilityfullfunctional.model.UserInformationData;
 
 import java.util.List;
 
