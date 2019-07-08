@@ -32,6 +32,9 @@ public class MyService extends AccessibilityService {
         accessibilityNodeInfo = event.getSource();
 
         Log.d("waste","onAccessibilityEvent: ");
+        if (accessibilityNodeInfo == null){
+            return;
+        }
 
         if (!(accessibilityNodeInfo.isEditable())){
             return;
