@@ -7,20 +7,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.thinkitive.accessibilityfullfunctional.R;
+import com.thinkitive.accessibilityfullfunctional.Utils.CallBackToActivity;
 import com.thinkitive.accessibilityfullfunctional.model.UserInformationData;
 
 import java.util.List;
 
-public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.ViewHolder> implements View.OnClickListener {
+public class CredentialsInfoAdapter extends RecyclerView.Adapter<CredentialsInfoAdapter.ViewHolder> implements View.OnClickListener {
     private List<UserInformationData> list;
     private Context context;
+    private CallBackToActivity callBackToActivity;
 
-    public PackageInfoAdapter(Context context, List<UserInformationData> list) {
+    public CredentialsInfoAdapter(Context context, List<UserInformationData> list, CallBackToActivity callBackToActivity) {
         this.context = context;
         this.list = list;
+        this.callBackToActivity = callBackToActivity;
     }
 
     @NonNull
@@ -34,11 +38,13 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         UserInformationData userInformationData = list.get(position);
 
-        viewHolder.itemView.setTag(position);
+        //viewHolder.itemView.setTag(position);
         //viewHolder.itemView.setOnClickListener(this);
         viewHolder.userDisplay.setText("User: "+userInformationData.getUser());
         viewHolder.passDisplay.setText("Password: "+userInformationData.getPassword());
-        viewHolder.packDisplay.setText("Package: "+userInformationData.getPackageName());
+        viewHolder.packDisplay.setText("App: "+userInformationData.getAppName());
+        viewHolder.imageView.setOnClickListener(this);
+        viewHolder.imageView.setTag(userInformationData);
 
     }
 
@@ -55,17 +61,27 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     @Override
     public void onClick(View view) {
 
-        int position = (int) view.getTag();
+        int id = view.getId();
 
-        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(list.get(position).getPackageName());
+        switch (id){
+            case R.id.deleteIcon:
+                UserInformationData userInformationData = (UserInformationData)view.getTag();
+                callBackToActivity.deleteEntry(userInformationData.getId());
+                break;
+            default:
+                break;
+        }
+
+       /* Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(list.get(position).getPackageName());
         if (launchIntent != null) {
             //Toast.makeText(context,"clicked package: "+list.get(position).getPackageName(),Toast.LENGTH_SHORT).show();
             context.startActivity(launchIntent);//null pointer check in case package name was not found
-        }
+        }*/
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView userDisplay, passDisplay, packDisplay;
+        private ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +89,7 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
             userDisplay = itemView.findViewById(R.id.userDisplay);
             passDisplay = itemView.findViewById(R.id.passwordDisplay);
             packDisplay = itemView.findViewById(R.id.packageNameDisplay);
+            imageView = itemView.findViewById(R.id.deleteIcon);
         }
     }
 }

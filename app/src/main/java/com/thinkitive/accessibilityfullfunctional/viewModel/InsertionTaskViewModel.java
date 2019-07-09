@@ -24,8 +24,8 @@ public class InsertionTaskViewModel extends AndroidViewModel implements Interfac
         packageList = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Boolean> insertUser(String user, String password, String packName){
-        new CrudOperations(getApplication()).insertAllInformation(this,user,password,packName);
+    public MutableLiveData<Boolean> insertUser(String user, String password, String packName, String appName){
+        new CrudOperations(getApplication()).insertAllInformation(this,user,password,packName, appName);
         return insertionStatus;
     }
 

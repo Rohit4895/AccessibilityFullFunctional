@@ -24,5 +24,8 @@ public interface UserInformationDataDao {
     @Query("select * from UserInformationData where packageName=:packageName")
     List<UserInformationData> getAllUserAndPassword(String packageName);
 
+    @Query("delete from UserInformationData where id=:userId")
+    int deleteUser(int userId);
+
 
 }

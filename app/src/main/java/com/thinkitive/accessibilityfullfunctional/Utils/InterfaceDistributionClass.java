@@ -22,7 +22,8 @@ public class InterfaceDistributionClass {
         void insertionCompleted(long id);
     }
 
-    public interface OnClickAppSelect{
-        void getAppName(String appPackageName);
+    public interface CallBackForDeletion{
+        void deletionCompleted(int id);
     }
+
 }

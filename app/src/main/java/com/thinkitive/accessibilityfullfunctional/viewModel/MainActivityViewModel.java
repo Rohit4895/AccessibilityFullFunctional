@@ -15,9 +15,12 @@ import com.thinkitive.accessibilityfullfunctional.viewModel.local.CrudOperations
 import java.util.List;
 
 public class MainActivityViewModel extends AndroidViewModel implements InterfaceDistributionClass.CallBackToList,
-        InterfaceDistributionClass.CallBackForInsertion, InterfaceDistributionClass.CallBackToPackageList {
+        InterfaceDistributionClass.CallBackForInsertion, InterfaceDistributionClass.CallBackToPackageList,
+        InterfaceDistributionClass.CallBackForDeletion {
+
     private MutableLiveData<List<UserInformationData>> userInformationDataList;
     private MutableLiveData<Boolean> insertionStatus;
+    private MutableLiveData<Boolean> deletionStatus;
     private MutableLiveData<List<PackageNamesOnly>> packageNamesList;
 
     public MainActivityViewModel(@NonNull Application application) {
@@ -25,6 +28,7 @@ public class MainActivityViewModel extends AndroidViewModel implements Interface
         userInformationDataList = new MutableLiveData<>();
         insertionStatus = new MutableLiveData<>();
         packageNamesList = new MutableLiveData<>();
+        deletionStatus = new MutableLiveData<>();
     }
 
     public LiveData<List<UserInformationData>> getAllUserList(){
@@ -35,6 +39,11 @@ public class MainActivityViewModel extends AndroidViewModel implements Interface
     public MutableLiveData<Boolean> insertList(List<String> packageNameList){
         new CrudOperations(getApplication()).insertAllPackages(this, packageNameList);
         return insertionStatus;
+    }
+
+    public MutableLiveData<Boolean> deleteUser(int userId){
+        new CrudOperations(getApplication()).deleteUserFromDB(this, userId);
+        return deletionStatus;
     }
 
     public LiveData<List<PackageNamesOnly>> getAllPackageList(){
@@ -58,5 +67,10 @@ public class MainActivityViewModel extends AndroidViewModel implements Interface
     @Override
     public void getPackageList(List<PackageNamesOnly> list) {
         packageNamesList.postValue(list);
+    }
+
+    @Override
+    public void deletionCompleted(int id) {
+        deletionStatus.postValue(true);
     }
 }

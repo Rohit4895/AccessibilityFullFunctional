@@ -20,6 +20,9 @@ public class UserInformationData {
     @ColumnInfo(name = "packageName")
     private String packageName;
 
+    @ColumnInfo(name = "appName")
+    private String appName;
+
     public UserInformationData() {
     }
 
@@ -53,5 +56,13 @@ public class UserInformationData {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 }

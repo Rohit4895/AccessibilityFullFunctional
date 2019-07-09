@@ -18,16 +18,17 @@ import android.view.View;
 import com.crashlytics.android.Crashlytics;
 import com.thinkitive.accessibilityfullfunctional.R;
 import com.thinkitive.accessibilityfullfunctional.Utils.ApkInfoExtractor;
+import com.thinkitive.accessibilityfullfunctional.Utils.CallBackToActivity;
 import com.thinkitive.accessibilityfullfunctional.model.PackageNamesOnly;
 import com.thinkitive.accessibilityfullfunctional.model.UserInformationData;
-import com.thinkitive.accessibilityfullfunctional.view.adapter.PackageInfoAdapter;
+import com.thinkitive.accessibilityfullfunctional.view.adapter.CredentialsInfoAdapter;
 import com.thinkitive.accessibilityfullfunctional.viewModel.MainActivityViewModel;
 
 import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CallBackToActivity {
 
     private MainActivityViewModel mainActivityViewModel;
     private String packName;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,InsertionTask.class);
+                Intent intent = new Intent(MainActivity.this, InsertionTaskActivity.class);
                 startActivityForResult(intent,INSERT_ACTIVITY_REQUEST);
             }
         });
@@ -72,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL,false));
 
-        final PackageInfoAdapter packageInfoAdapter = new PackageInfoAdapter(this,
-                new ArrayList<UserInformationData>());
-        recyclerView.setAdapter(packageInfoAdapter);
+        final CredentialsInfoAdapter credentialsInfoAdapter = new CredentialsInfoAdapter(this,
+                new ArrayList<UserInformationData>(), this);
+        recyclerView.setAdapter(credentialsInfoAdapter);
 
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<UserInformationData> list) {
               //  Log.d("waste","On Create: "+list.size());
-                packageInfoAdapter.addItems(list);
+                credentialsInfoAdapter.addItems(list);
             }
         });
 
@@ -127,15 +128,19 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == INSERT_ACTIVITY_REQUEST) {
-            mainActivityViewModel.getAllUserList().observe(MainActivity.this,
-                    new Observer<List<UserInformationData>>() {
-                        @Override
-                        public void onChanged(@Nullable List<UserInformationData> list) {
-                            // Log.d("waste","On Result: "+list.size());
-                        }
-                    });
+            mainActivityViewModel.getAllUserList();
         }else if (requestCode == ACCESSIBILITY_REQUEST) {
 
         }
+    }
+
+    @Override
+    public void deleteEntry(int id) {
+        mainActivityViewModel.deleteUser(id).observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                mainActivityViewModel.getAllUserList();
+            }
+        });
     }
 }

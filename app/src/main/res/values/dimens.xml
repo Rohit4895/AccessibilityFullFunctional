@@ -1,3 +1,21 @@
 <resources>
+
+    <dimen name="width_290dp">290dp</dimen>
+    <dimen name="height_35dp">35dp</dimen>
+    <dimen name="height_200dp">200dp</dimen>
+    <dimen name="width_67dp">67dp</dimen>
+    <dimen name="height_65dp">65dp</dimen>
+    <dimen name="height_45dp">45dp</dimen>
+    <dimen name="width_223dp">223dp</dimen>
+    <dimen name="height_1dp">1dp</dimen>
+    <dimen name="width_0dp">0dp</dimen>
+    <dimen name="height_30dp">30dp</dimen>
+    <dimen name="width_40dp">40dp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+
+    <dimen name="text_20dp">20dp</dimen>
 </resources>

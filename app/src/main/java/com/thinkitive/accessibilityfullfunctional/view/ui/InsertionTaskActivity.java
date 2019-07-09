@@ -12,10 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thinkitive.accessibilityfullfunctional.R;
 import com.thinkitive.accessibilityfullfunctional.Utils.ApkInfoExtractor;
-import com.thinkitive.accessibilityfullfunctional.Utils.InterfaceDistributionClass;
+import com.thinkitive.accessibilityfullfunctional.Utils.CallBackToGetAppName;
 import com.thinkitive.accessibilityfullfunctional.model.PackageNamesOnly;
 import com.thinkitive.accessibilityfullfunctional.view.adapter.InsertionAdapter;
 import com.thinkitive.accessibilityfullfunctional.viewModel.InsertionTaskViewModel;
@@ -23,14 +24,14 @@ import com.thinkitive.accessibilityfullfunctional.viewModel.InsertionTaskViewMod
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsertionTask extends AppCompatActivity implements InterfaceDistributionClass.OnClickAppSelect {
+public class InsertionTaskActivity extends AppCompatActivity implements CallBackToGetAppName {
     private EditText user, password;
     private TextView packageName;
     private Button insertInfo;
     private InsertionTaskViewModel insertionTaskViewModel;
     private RecyclerView recyclerView;
     private ApkInfoExtractor apkInfoExtractor;
-    private String pack;
+    private String packName, appName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +45,15 @@ public class InsertionTask extends AppCompatActivity implements InterfaceDistrib
         recyclerView = findViewById(R.id.recyclerForInsertion);
 
         apkInfoExtractor = new ApkInfoExtractor(this);
-        pack="";
+        packName ="";
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        final InsertionAdapter insertionAdapter = new InsertionAdapter(this, new ArrayList<String>());
+        final InsertionAdapter insertionAdapter = new InsertionAdapter(this, new ArrayList<String>(), this);
         recyclerView.setAdapter(insertionAdapter);
 
         insertionTaskViewModel = ViewModelProviders.of(this).get(InsertionTaskViewModel.class);
 
-        insertionTaskViewModel.getPackageNamesList().observe(InsertionTask.this,
+        insertionTaskViewModel.getPackageNamesList().observe(InsertionTaskActivity.this,
                 new Observer<List<PackageNamesOnly>>() {
             @Override
             public void onChanged(@Nullable List<PackageNamesOnly> packageNamesList) {
@@ -64,11 +65,6 @@ public class InsertionTask extends AppCompatActivity implements InterfaceDistrib
 
                 insertionAdapter.addList(adapterList);
 
-
-              /* For Spinner.....
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(InsertionTask.this,
-                        android.R.layout.simple_spinner_dropdown_item, adapterList);
-                packageName.setAdapter(adapter);*/
             }
         });
 
@@ -80,12 +76,12 @@ public class InsertionTask extends AppCompatActivity implements InterfaceDistrib
                 String userId = user.getText().toString();
                 String pass = password.getText().toString();
 
-                if (userId == null || pass == null || pack == null){
-                   // Toast.makeText(getApplicationContext(),"All Fields are neccessary...",Toast.LENGTH_SHORT).show();
+                if (userId.isEmpty() || pass.isEmpty() || packName.isEmpty() || appName.isEmpty()){
+                    Toast.makeText(getApplicationContext(),"All Fields are neccessary...",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                insertionTaskViewModel.insertUser(userId,pass,pack).observe(InsertionTask.this, new Observer<Boolean>() {
+                insertionTaskViewModel.insertUser(userId,pass, packName, appName).observe(InsertionTaskActivity.this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean success) {
                         if (!success)
@@ -101,8 +97,11 @@ public class InsertionTask extends AppCompatActivity implements InterfaceDistrib
 
     @Override
     public void getAppName(String appPackageName) {
-        pack = appPackageName;
-        String appName = apkInfoExtractor.getAppName(appPackageName);
-        packageName.setText(appName);
+        packName = appPackageName;
+        packageName.setText(apkInfoExtractor.getAppName(appPackageName));
+        appName = apkInfoExtractor.getAppName(appPackageName);
+
     }
+
+
 }

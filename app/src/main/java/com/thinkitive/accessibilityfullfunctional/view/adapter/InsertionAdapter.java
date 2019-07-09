@@ -13,7 +13,8 @@ import android.widget.TextView;
 
 import com.thinkitive.accessibilityfullfunctional.R;
 import com.thinkitive.accessibilityfullfunctional.Utils.ApkInfoExtractor;
-import com.thinkitive.accessibilityfullfunctional.view.ui.InsertionTask;
+import com.thinkitive.accessibilityfullfunctional.Utils.CallBackToGetAppName;
+import com.thinkitive.accessibilityfullfunctional.view.ui.InsertionTaskActivity;
 
 import java.util.List;
 
@@ -22,11 +23,13 @@ public class InsertionAdapter extends RecyclerView.Adapter<InsertionAdapter.View
     private List<String> list;
     private ApkInfoExtractor apkInfoExtractor;
     private int selected_position = -1;
+    private CallBackToGetAppName callBackToGetAppName;
 
-    public InsertionAdapter(Context context, List<String> list) {
+    public InsertionAdapter(Context context, List<String> list, CallBackToGetAppName callBackToGetAppName) {
         this.context = context;
         this.list = list;
         apkInfoExtractor = new ApkInfoExtractor(context);
+        this.callBackToGetAppName = callBackToGetAppName;
     }
 
     @NonNull
@@ -71,7 +74,7 @@ public class InsertionAdapter extends RecyclerView.Adapter<InsertionAdapter.View
 
 
         String appPackName = list.get(position);
-        ((InsertionTask)context).getAppName(appPackName);
+        callBackToGetAppName.getAppName(appPackName);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

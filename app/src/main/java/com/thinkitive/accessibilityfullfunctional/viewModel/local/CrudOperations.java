@@ -43,6 +43,22 @@ public class CrudOperations {
         });
     }
 
+    public void deleteUserFromDB(final InterfaceDistributionClass.CallBackForDeletion callBackForDeletion, final int userId){
+        AppExecutor.getInstance().getDiskIo().execute(new Runnable() {
+            @Override
+            public void run() {
+                final int statusCode = DataBaseClient.getInstance(context).getMainDataBase().userInformationDataDao().deleteUser(userId);
+
+                AppExecutor.getInstance().getMainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBackForDeletion.deletionCompleted(statusCode);
+                    }
+                });
+            }
+        });
+    }
+
     public void getAllPackageList(final InterfaceDistributionClass.CallBackToPackageList callBackToPackageList){
         AppExecutor.getInstance().getDiskIo().execute(new Runnable() {
             @Override
@@ -60,7 +76,7 @@ public class CrudOperations {
     }
 
     public void insertAllInformation(final InterfaceDistributionClass.CallBackForInsertion callBackForInsertion,
-                                     final String user, final String password, final String packName ){
+                                     final String user, final String password, final String packName, final String appName ){
         AppExecutor.getInstance().getDiskIo().execute(new Runnable() {
             @Override
             public void run() {
@@ -68,6 +84,7 @@ public class CrudOperations {
                 userInformationData.setUser(user);
                 userInformationData.setPassword(password);
                 userInformationData.setPackageName(packName);
+                userInformationData.setAppName(appName);
 
                 final long id = DataBaseClient.getInstance(context).getMainDataBase()
                         .userInformationDataDao().insertData(userInformationData);
