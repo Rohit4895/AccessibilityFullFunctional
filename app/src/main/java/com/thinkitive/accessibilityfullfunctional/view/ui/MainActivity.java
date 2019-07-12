@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements CallBackToActivit
     private RecyclerView recyclerView;
     private int INSERT_ACTIVITY_REQUEST = 1;
     private int ACCESSIBILITY_REQUEST = 2;
+    private int accessibilityEnabled =0;
+    private String ACCESSIBILITY_SERVICE_NAME =
+            "com.thinkitive.accessibilityfullfunctional/com.thinkitive.accessibilityfullfunctional.service.MyService";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +53,8 @@ public class MainActivity extends AppCompatActivity implements CallBackToActivit
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
-        int accessibilityEnabled = 0;
-
-        try {
-            accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED);
-            //Log.d("demo","Status: "+accessibilityEnabled);
-        } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        if (accessibilityEnabled == 0) {
+        if (!isAccessibilityEnabled()) {
+            Log.d("demo", "isAccessibilityEnabled: "+isAccessibilityEnabled());
             createDialog("To continue with app, you have to ON the accessibility service of Autofill.\n Do you want to continue..?");
         }
 
@@ -107,6 +104,40 @@ public class MainActivity extends AppCompatActivity implements CallBackToActivit
         });
 
     }
+
+    private boolean isAccessibilityEnabled(){
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED);
+            Log.d("demo","Status: "+accessibilityEnabled);
+
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        boolean accessibilityOfCurrentAppEnabled = false;
+
+        if (accessibilityEnabled == 1){
+            TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
+
+
+
+            String settingValue = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            Log.d("demo", "Setting: " + settingValue);
+            if (settingValue != null) {
+                TextUtils.SimpleStringSplitter splitter = mStringColonSplitter;
+                splitter.setString(settingValue);
+                while (splitter.hasNext()) {
+                    String accessabilityService = splitter.next();
+                    Log.d("demo", "Accessibility: " + accessabilityService);
+                    if (accessabilityService.equalsIgnoreCase(ACCESSIBILITY_SERVICE_NAME)){
+                        accessibilityOfCurrentAppEnabled = true;
+                    }
+                }
+            }
+        }
+        return accessibilityOfCurrentAppEnabled;
+    }
+
 
     private void createDialog(String message){
         AlertDialog dialog = new AlertDialog.Builder(this)
